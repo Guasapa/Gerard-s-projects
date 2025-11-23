@@ -31,6 +31,8 @@ export function useFetch<T>(url: string, options?: RequestInit): FetchState<T> {
     };
 
     fetchData();
+    // Note: 'options' is intentionally not in dependencies to prevent re-fetching on every render
+    // If you need to re-fetch when options change, consider using useMemo for the options object
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [url]);
 

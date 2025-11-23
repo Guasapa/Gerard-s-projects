@@ -9,9 +9,13 @@ export const errorHandler = (
   console.error('Error:', err.message);
   console.error('Stack:', err.stack);
 
+  // In production, send generic error message to avoid exposing internal details
+  const isDevelopment = process.env.NODE_ENV === 'development';
+  const message = isDevelopment ? err.message : 'Internal Server Error';
+
   res.status(500).json({
     success: false,
-    message: err.message || 'Internal Server Error',
-    ...(process.env.NODE_ENV === 'development' && { stack: err.stack }),
+    message,
+    ...(isDevelopment && { stack: err.stack }),
   });
 };
